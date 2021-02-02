@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pair.nkweb.mappers.NkMapper">
+
+    <select id="ivInfoList" parameterType="com.pair.nkweb.requestvo.RequestVO" resultType="com.pair.nkweb.vo.IvInfoVO">
+        select
+            base_ymd,
+            iv_no,
+            pk_nm,
+            dv_nm,
+            dv_tel1,
+            iv_st_cd,
+            iv_st_nm
+        from
+            web5_master
+        where
+        base_ymd<![CDATA[>=]]>#{base_ymd_front} and base_ymd<![CDATA[<=]]>#{base_ymd_rear}
+        <if test='iv_no!=null and !iv_no.equals("")'>and iv_no=#{iv_no}</if>
+        <if test='pk_nm!=null and !pk_nm.equals("")'>and pk_nm=#{pk_nm}</if>
+        <if test='dv_nm!=null and !dv_nm.equals("")'>and dv_nm=#{dv_nm}</if>
+        <if test='dv_tel1!=null and !dv_tel1.equals("")'>and dv_tel1=#{dv_tel1}</if>
+        <if test='iv_st_cd!=null and !iv_st_cd.equals("")'>and iv_st_cd=#{iv_st_cd}</if>
+    </select>
+
+    <select id="MemoInfoList" parameterType="com.pair.nkweb.requestvo.RequestVO" resultType="com.pair.nkweb.vo.MemoVO">
+        select
+            iv_no,
+            iv_no_seq,
+            reg_ymd,
+            trade_nm,
+            emp_cd,
+            emp_nm,
+            memo_desc as memo_desc_bt
+        from web5_memo
+        where
+        iv_no=#{iv_no} order by iv_no_seq asc
+    </select>
+
+    <insert id="insertMemo" parameterType="com.pair.nkweb.requestvo.RequestVO">
+        insert into web5_memo_put
+        (
+            login_id,
+            reg_id,
+            mode_it,
+            emp_cd,
+            iv_no,
+            iv_no_seq,
+            memo_desc
+        )
+        values
+        (
+            #{login_id},
+            'WEB5',
+            '1',
+            '',
+            #{iv_no},
+            0,
+            #{memo_desc}
+        )
+    </insert>
+
+    <insert id="modifyMemo" parameterType="com.pair.nkweb.requestvo.RequestVO">
+        insert into web5_memo_put
+        (
+            login_id,
+            reg_id,
+            mode_it,
+            emp_cd,
+            iv_no,
+            iv_no_seq,
+            memo_desc
+        )
+        values
+        (
+            #{login_id},
+            'WEB5',
+            '2',
+            #{emp_cd},
+            #{iv_no},
+            ${iv_no_seq},
+            #{memo_desc}
+        )
+    </insert>
+</mapper>

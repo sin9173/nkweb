@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pair.nkweb.mappers2.UsersMapper">
+    <insert id="regUser" parameterType="com.pair.nkweb.requestvo.RequestVO">
+        insert into nklweb.nkl_web_user
+        (
+            user_id,
+            user_pw,
+            trade_cd,
+            trade_nm,
+            tradesub_cd,
+            tradesub_nm
+        )
+        values
+        (
+            #{user_id},
+            #{user_pw},
+            #{trade_cd},
+            #{trade_nm},
+            #{tradesub_cd},
+            #{tradesub_nm}
+        )
+    </insert>
+
+    <update id="modUser" parameterType="com.pair.nkweb.requestvo.RequestVO">
+        update nklweb.nkl_web_user
+         set
+            user_pw=#{user_pw},
+            trade_cd=#{trade_cd},
+            trade_nm=#{trade_nm},
+            tradesub_cd=#{tradesub_cd},
+            tradesub_nm=#{tradesub_nm}
+        where user_id=#{user_id}
+    </update>
+
+    <select id="loginUser" parameterType="com.pair.nkweb.requestvo.RequestVO" resultType="com.pair.nkweb.vo.UserVO">
+        select * from nklweb.nkl_web_user where user_id=#{user_id}
+    </select>
+</mapper>
